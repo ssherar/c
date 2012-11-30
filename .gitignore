@@ -18,3 +18,5 @@
 
 # Netbeans
 nbproject/*
+/build/
+/dist/

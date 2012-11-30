@@ -17,8 +17,25 @@
  */
 
 struct Event_Info {
-	char name[50];
-	char date[30];
-	char time[4];
+   char name[79];
+   char date[79];
+   char time[6];
 };
 
+struct Course {
+   char id_name;
+   int length;
+   struct Node *head;
+};
+
+struct Node {
+    int id_number;
+    char type[2];
+    struct Node *next;
+};
+
+struct Competitor {
+    int id;
+    char course_id;
+    char name[50]; /* fprintf has to have type %50[a-zA-Z ] */
+};
