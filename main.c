@@ -23,11 +23,14 @@
 
 struct Event_Info event;
 struct Competitor *competitor;
+int no_competitors = 0;
 
 void menu();
 void startup();
 void load_info_files(char filename[]);
 void print_competitors();
+void load_comp_file(char filename[], int lines);
+void print_competitor(struct Competitor comp);
 
 int main ( int argc, char *argv[] )
 {
@@ -47,8 +50,10 @@ void menu() {
                 if('1' == menu_choice) {
                     
                 } else if('2' == menu_choice) {
-                    //print_competitors();
-                    printf("Competitor 1's id: %d\n", competitor[0].id);
+                    int i;
+                    for(i = 0; i < no_competitors; i++) {
+                        print_competitor(competitor[i]);
+                    }
                 }
 	} while(menu_choice != 'q');
 }
@@ -68,8 +73,10 @@ void startup() {
             printf("Number of lines: %d\n", competitor_lines);
             //*competitors = malloc(competitor_lines * sizeof(struct Competitor));
             competitor = malloc(competitor_lines * sizeof(struct Competitor));
-            load_comp_file(competitor_filename);
+            load_comp_file(competitor_filename, competitor_lines);
         }
+        
+        no_competitors = competitor_lines;
         //nodes
         //tracks
         //courses
@@ -115,16 +122,23 @@ int get_number_lines(char filename[]) {
     return lines;
 }
 
-void load_comp_file(char filename[]) {
+void load_comp_file(char filename[], int lines) {
     FILE* fp;
-    int i = 0, index = -1;
-    char name[50], course;
+    int i = 0;
+    char name[50];
     fp = fopen(filename, "r");
-    while(fp = fscanf(fp, " %d %d %50s", &index, &course, competitor[i].name) != EOF) {
-        //competitor[i].name = *name;
-        competitor[i].course_id = course;
-        competitor[i].id = index;
-        i++;
+    for(i = 0; i < lines; i++) {
+        fscanf(fp, "%d %c %50[A-Za-z ]\n", 
+                &competitor[i].id, 
+                &competitor[i].course_id, 
+                competitor[i].name);
     }
     fclose(fp);
+}
+
+void print_competitor(struct Competitor comp) {
+    printf("Name: %s \t ID: %d \t Course ID: %c \n",
+            comp.name,
+            comp.id,
+            comp.course_id);
 }
