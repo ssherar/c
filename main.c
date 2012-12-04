@@ -24,7 +24,7 @@
 struct Event_Info event;
 struct Competitor *competitor;
 struct Node *node_types;
-Course course;
+Course *course;
 int no_competitors = 0;
 
 void menu();
@@ -59,15 +59,15 @@ void menu() {
                         print_competitor(competitor[i]);
                     }
                 } else if('3' == menu_choice) {
-                    print_list(course.head);
+                    print_list(course[0].head);
                 }
 	} while(menu_choice != 'q');
 }
 
 void startup() {
 	char info_filename[30], competitor_filename[30]
-           , node_filename[30];
-        int competitor_lines, node_lines;
+           , node_filename[30], course_filename[30];
+        int competitor_lines, node_lines, courses_lines;
 	printf("Please enter the file for the event information > ");
 	scanf(" %30s", info_filename);
 	load_info_file(info_filename);
@@ -82,16 +82,20 @@ void startup() {
         
         printf("Please enter the file for the competitors > ");
         scanf(" %30s", competitor_filename);
-        printf("Filename: %s\n", competitor_filename);
         competitor_lines = get_number_lines(competitor_filename);
+        
         if(0 < competitor_lines) {
-            printf("Number of lines: %d\n", competitor_lines);
             competitor = malloc(competitor_lines * sizeof(struct Competitor));
             load_comp_file(competitor_filename, competitor_lines);
         }
+        printf("Please enter the file for the courses > ");
+        scanf(" %30s", course_filename);
+        courses_lines = get_number_lines(course_filename);
         
-        load_courses_file("data/courses.txt", "1");
-        
+        if(0 < courses_lines) {
+            course = malloc(courses_lines * sizeof(Course));
+            load_courses_file(course_filename, courses_lines);
+        }
         no_competitors = competitor_lines;
 }
 
@@ -172,11 +176,11 @@ void load_courses_file(char filename[], int lines) {
     int i = 0, j = 0, amount_nodes = 0;
     char id;
     fp = fopen(filename, "r");
-    //for(i = 0; i < lines; i++) {
+    for(i = 0; i < lines; i++) {
         fscanf(fp, "%c %d", &id, &amount_nodes);
-        course.id_name = id;
-        course.length = amount_nodes;
-        course.head = NULL;
+        course[i].id_name = id;
+        course[i].length = amount_nodes;
+        course[i].head = NULL;
         for(j = 0; j < amount_nodes; j++) {
             int val = 0;
             Course_Node *tmp;
@@ -185,14 +189,12 @@ void load_courses_file(char filename[], int lines) {
             tmp->node_id = val;
             tmp->next = NULL;
             if(0 == j) {
-                course.head = tmp;
+                course[i].head = tmp;
             } else {
-                insert_node((Course_Node*) course.head, tmp);
+                insert_node((Course_Node*) course[i].head, tmp);
             }
         }
-        printf("Printing courses\n");
-        print_list(course.head);
-    //}
+    }
 }
 
 void insert_node(Course_Node* current, Course_Node* value) {
