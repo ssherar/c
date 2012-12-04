@@ -44,3 +44,10 @@ struct Node {
     int id;
     char type[2];
 };
+
+typedef struct Track {
+   int id;
+   int start;
+   int finish;
+   int time;
+} Track;

@@ -26,6 +26,7 @@ struct Event_Info event;
 struct Competitor *competitor;
 struct Node *node_types;
 Course *course;
+Track *tracks;
 int no_competitors = 0;
 
 void menu();
@@ -104,7 +105,8 @@ void startup() {
         tracks_lines = get_number_lines(tracks_filename);
         
         if(0 < tracks_lines) {
-            
+            tracks = malloc(tracks_lines * sizeof(Track));
+            load_track_file(tracks_filename, tracks_lines);
         }
         
         no_competitors = competitor_lines;
@@ -207,6 +209,23 @@ void load_courses_file(char filename[], int lines) {
     }
     fclose(fp);
 }
+
+int load_track_files(char filename[], int length) {
+    FILE* fp;
+    int i = 0;
+    
+    fp = fopen(filename, "r");
+    for(i = 0; i < length; i++) {
+        fscanf(fp,
+                "%d %d %d %d",
+                &tracks[i].id,
+                &tracks[i].start,
+                &tracks[i].finish,
+                &tracks[i].time);
+    }
+    fclose(fp);
+}
+
 /** node.c */
 void insert_node(Course_Node* current, Course_Node* value) {
     if(current == NULL) {
