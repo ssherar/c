@@ -18,6 +18,7 @@
 
 #include	<stdio.h>
 #include	<stdlib.h>
+#include        <string.h>
 #include	"data_struct.h"
 
 
@@ -66,8 +67,9 @@ void menu() {
 
 void startup() {
 	char info_filename[30], competitor_filename[30]
-           , node_filename[30], course_filename[30];
-        int competitor_lines, node_lines, courses_lines;
+           , node_filename[30], course_filename[30], tracks_filename[30];
+        int competitor_lines, node_lines, courses_lines, tracks_lines;
+        
 	printf("Please enter the file for the event information > ");
 	scanf(" %30s", info_filename);
 	load_info_file(info_filename);
@@ -96,6 +98,15 @@ void startup() {
             course = malloc(courses_lines * sizeof(Course));
             load_courses_file(course_filename, courses_lines);
         }
+        
+        printf("Please enter the file for the tracks > ");
+        scanf(" %30s", tracks_filename);
+        tracks_lines = get_number_lines(tracks_filename);
+        
+        if(0 < tracks_lines) {
+            
+        }
+        
         no_competitors = competitor_lines;
 }
 
@@ -112,8 +123,6 @@ void load_info_file(char filename[]) {
         fscanf(fp, " %79[a-zA-Z0-9 ]", event.date);
         fscanf(fp, " %5s", event.time);
         
-        printf("Event: %s \nOn %s %s\n",
-                event.name, event.date, event.time);
         fclose(fp);
 }
 
@@ -186,6 +195,7 @@ void load_courses_file(char filename[], int lines) {
             Course_Node *tmp;
             tmp = malloc(sizeof(Course_Node));
             fscanf(fp, " %d", &val);
+            strcpy(tmp->type, node_types[val].type);
             tmp->node_id = val;
             tmp->next = NULL;
             if(0 == j) {
@@ -195,8 +205,9 @@ void load_courses_file(char filename[], int lines) {
             }
         }
     }
+    fclose(fp);
 }
-
+/** node.c */
 void insert_node(Course_Node* current, Course_Node* value) {
     if(current == NULL) {
         current = value;
@@ -210,7 +221,7 @@ void insert_node(Course_Node* current, Course_Node* value) {
 void print_list(Course_Node** head) {
     Course_Node* current = (Course_Node*) head;
     while(current != NULL) {
-        printf("%d\n", current->node_id);
+        printf("%s\n", current->type);
         current = current->next;
     }
 }
