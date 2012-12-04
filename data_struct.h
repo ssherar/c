@@ -22,22 +22,22 @@ struct Event_Info {
    char time[6];
 };
 
-struct Course {
+typedef struct Course{
    char id_name;
    int length;
-   struct Course_Node *head;
-};
+   struct Course_Node **head;
+} Course;
 
-struct Course_Node {
+typedef struct Course_Node {
     int node_id;
     char type[2];
     struct Course_Node *next;
-};
+} Course_Node;
 
 struct Competitor {
     int id;
     char course_id;
-    char name[50]; /* fprintf has to have type %50[a-zA-Z ] */
+    char name[50];
 };
 
 struct Node {

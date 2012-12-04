@@ -24,6 +24,7 @@
 struct Event_Info event;
 struct Competitor *competitor;
 struct Node *node_types;
+Course course;
 int no_competitors = 0;
 
 void menu();
@@ -46,6 +47,7 @@ void menu() {
 	do {
 		printf("1)\tQuery Location of Competitor\n");
                 printf("2)\tList competitors\n");
+                printf("3)\tList Course\n");
 		printf("q)\tExit the application\n");
 		printf("\nPlease enter your choice > ");
 		scanf(" %c", &menu_choice);
@@ -56,6 +58,8 @@ void menu() {
                     for(i = 0; i < no_competitors; i++) {
                         print_competitor(competitor[i]);
                     }
+                } else if('3' == menu_choice) {
+                    print_list(course.head);
                 }
 	} while(menu_choice != 'q');
 }
@@ -85,6 +89,8 @@ void startup() {
             competitor = malloc(competitor_lines * sizeof(struct Competitor));
             load_comp_file(competitor_filename, competitor_lines);
         }
+        
+        load_courses_file("data/courses.txt", "1");
         
         no_competitors = competitor_lines;
 }
@@ -159,4 +165,50 @@ void load_node_file(char filename[], int lines) {
                 node_types[i].type);
     }
     fclose(fp);
+}
+
+void load_courses_file(char filename[], int lines) {
+    FILE* fp;
+    int i = 0, j = 0, amount_nodes = 0;
+    char id;
+    fp = fopen(filename, "r");
+    //for(i = 0; i < lines; i++) {
+        fscanf(fp, "%c %d", &id, &amount_nodes);
+        course.id_name = id;
+        course.length = amount_nodes;
+        course.head = NULL;
+        for(j = 0; j < amount_nodes; j++) {
+            int val = 0;
+            Course_Node *tmp;
+            tmp = malloc(sizeof(Course_Node));
+            fscanf(fp, " %d", &val);
+            tmp->node_id = val;
+            tmp->next = NULL;
+            if(0 == j) {
+                course.head = tmp;
+            } else {
+                insert_node((Course_Node*) course.head, tmp);
+            }
+        }
+        printf("Printing courses\n");
+        print_list(course.head);
+    //}
+}
+
+void insert_node(Course_Node* current, Course_Node* value) {
+    if(current == NULL) {
+        current = value;
+    } else if(NULL == current->next) {
+        current->next = value;
+    } else {
+        insert_node(current->next, value);
+    }
+}
+
+void print_list(Course_Node** head) {
+    Course_Node* current = (Course_Node*) head;
+    while(current != NULL) {
+        printf("%d\n", current->node_id);
+        current = current->next;
+    }
 }
