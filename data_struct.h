@@ -16,11 +16,11 @@
  * =====================================================================================
  */
 
-struct Event_Info {
+typedef struct Event_Info {
    char name[79];
    char date[79];
    char time[6];
-};
+} Event_Info;
 
 typedef struct Course{
    char id_name;
@@ -34,16 +34,16 @@ typedef struct Course_Node {
     struct Course_Node *next;
 } Course_Node;
 
-struct Competitor {
+typedef struct Competitor {
     int id;
     char course_id;
     char name[50];
-};
+} Competitor;
 
-struct Node {
+typedef struct Node {
     int id;
     char type[2];
-};
+} Node;
 
 typedef struct Track {
    int id;
