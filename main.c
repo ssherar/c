@@ -19,7 +19,7 @@
 #include	<stdio.h>
 #include	<stdlib.h>
 #include        <string.h>
-#include	"data_struct.h"
+#include        "fileio.h"
 
 
 struct Event_Info event;
@@ -31,11 +31,8 @@ int no_competitors = 0;
 
 void menu();
 void startup();
-void load_info_files(char filename[]);
-void print_competitors();
-void load_comp_file(char filename[], int lines);
 void print_competitor(struct Competitor comp);
-void load_node_file(char filename[], int lines);
+void print_competitors();
 
 int main(int argc, char *argv[]) {
     startup();
@@ -47,14 +44,14 @@ void menu() {
     char menu_choice = 'A';
     do {
         printf("Welcome to %s on %s %s! \n\n",
-                event.name, event.date event.time);
+                event.name, event.date, event.time);
         printf("\t1)\tQuery Location of Competitor\n");
         printf("\t2)\tQuery status of competitors\n");
         printf("\t3)\tSupply times for individual competitors\n");
         printf("\t4)\tRead checkpoint data from file\n");
-        printf("\t5)\tList competitors with times");
-        printf("q)\tExit the application\n");
-        printf("\nPlease enter your choice > ");
+        printf("\t5)\tList competitors with times\n");
+        printf("\tq)\tExit the application\n");
+        printf("\n > ");
         scanf(" %c", &menu_choice);
         if ('1' == menu_choice) {
 
@@ -69,14 +66,14 @@ void startup() {
 
     printf("Please enter the file for the event information > ");
     scanf(" %30s", info_filename);
-    load_info_file(info_filename);
+    load_info_file(info_filename, &event);
 
     printf("Please enter the file for the node type > ");
     scanf(" %30s", node_filename);
     node_lines = get_number_lines(node_filename);
     if (0 < node_lines) {
         node_types = malloc(node_lines * sizeof (struct Node));
-        load_node_file(node_filename, node_lines);
+        load_node_file(node_filename, node_lines, node_types);
     }
 
     printf("Please enter the file for the competitors > ");
@@ -85,7 +82,7 @@ void startup() {
 
     if (0 < competitor_lines) {
         competitor = malloc(competitor_lines * sizeof (struct Competitor));
-        load_comp_file(competitor_filename, competitor_lines);
+        load_comp_file(competitor_filename, competitor_lines, competitor);
     }
     printf("Please enter the file for the courses > ");
     scanf(" %30s", course_filename);
@@ -93,7 +90,8 @@ void startup() {
 
     if (0 < courses_lines) {
         course = malloc(courses_lines * sizeof (Course));
-        load_courses_file(course_filename, courses_lines);
+        load_courses_file(course_filename, courses_lines,
+                course, node_types);
     }
 
     printf("Please enter the file for the tracks > ");
@@ -102,62 +100,12 @@ void startup() {
 
     if (0 < tracks_lines) {
         tracks = malloc(tracks_lines * sizeof (Track));
-        load_track_file(tracks_filename, tracks_lines);
+        load_track_file(tracks_filename, tracks_lines, &tracks);
     }
 
     no_competitors = competitor_lines;
 }
 
-void load_info_file(char filename[]) {
-    FILE* fp = NULL;
-
-    fp = fopen(filename, "r");
-    if (NULL == fp) {
-        printf("\n File Error: cannot load %s", filename);
-        return;
-    }
-
-    fscanf(fp, " %79[a-zA-Z0-9- ]", event.name);
-    fscanf(fp, " %79[a-zA-Z0-9 ]", event.date);
-    fscanf(fp, " %5s", event.time);
-
-    fclose(fp);
-}
-
-int get_number_lines(char filename[]) {
-    FILE* fp_number_lines = NULL;
-    char character;
-    int lines = 0;
-
-    fp_number_lines = fopen(filename, "r");
-    if (NULL == fp_number_lines) {
-        printf("File not found\n");
-        return -1;
-    }
-    while ((character = fgetc(fp_number_lines)) != EOF) {
-        if ('\n' == character) {
-            lines++;
-        }
-    }
-    fclose(fp_number_lines);
-    if (0 == lines) {
-        lines++; //as end of files DONT have an \n
-    }
-    return lines;
-}
-
-void load_comp_file(char filename[], int lines) {
-    FILE* fp;
-    int i = 0;
-    fp = fopen(filename, "r");
-    for (i = 0; i < lines; i++) {
-        fscanf(fp, "%d %c %50[A-Za-z ]\n",
-                &competitor[i].id,
-                &competitor[i].course_id,
-                competitor[i].name);
-    }
-    fclose(fp);
-}
 
 void print_competitor(struct Competitor comp) {
     printf("Name: %s \t ID: %d \t Course ID: %c \n",
@@ -166,61 +114,7 @@ void print_competitor(struct Competitor comp) {
             comp.course_id);
 }
 
-void load_node_file(char filename[], int lines) {
-    FILE* fp;
-    int i = 0;
-    fp = fopen(filename, "r");
-    for (i = 0; i < lines; i++) {
-        fscanf(fp, "%d %2s\n",
-                &node_types[i].id,
-                node_types[i].type);
-    }
-    fclose(fp);
-}
 
-void load_courses_file(char filename[], int lines) {
-    FILE* fp;
-    int i = 0, j = 0, amount_nodes = 0;
-    char id;
-    fp = fopen(filename, "r");
-    for (i = 0; i < lines; i++) {
-        fscanf(fp, "%c %d", &id, &amount_nodes);
-        course[i].id_name = id;
-        course[i].length = amount_nodes;
-        course[i].head = NULL;
-        for (j = 0; j < amount_nodes; j++) {
-            int val = 0;
-            Course_Node *tmp;
-            tmp = malloc(sizeof (Course_Node));
-            fscanf(fp, " %d", &val);
-            strcpy(tmp->type, node_types[val].type);
-            tmp->node_id = val;
-            tmp->next = NULL;
-            if (0 == j) {
-                course[i].head = tmp;
-            } else {
-                insert_node((Course_Node*) course[i].head, tmp);
-            }
-        }
-    }
-    fclose(fp);
-}
-
-int load_track_file(char filename[], int length) {
-    FILE* fp;
-    int i = 0;
-
-    fp = fopen(filename, "r");
-    for (i = 0; i < length; i++) {
-        fscanf(fp,
-                "%d %d %d %d",
-                &tracks[i].id,
-                &tracks[i].start,
-                &tracks[i].finish,
-                &tracks[i].time);
-    }
-    fclose(fp);
-}
 
 /** node.c */
 void insert_node(Course_Node* current, Course_Node* value) {
