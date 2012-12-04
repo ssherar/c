@@ -29,7 +29,8 @@ struct Course {
 };
 
 struct Course_Node {
-    struct Node_Type 
+    int node_id;
+    char type[2];
     struct Course_Node *next;
 };
 
@@ -39,7 +40,7 @@ struct Competitor {
     char name[50]; /* fprintf has to have type %50[a-zA-Z ] */
 };
 
-struct Node_Type {
-    int id_number;
-    char[2] type;
+struct Node {
+    int id;
+    char type[2];
 };

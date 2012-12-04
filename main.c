@@ -23,6 +23,7 @@
 
 struct Event_Info event;
 struct Competitor *competitor;
+struct Node *node_types;
 int no_competitors = 0;
 
 void menu();
@@ -31,6 +32,7 @@ void load_info_files(char filename[]);
 void print_competitors();
 void load_comp_file(char filename[], int lines);
 void print_competitor(struct Competitor comp);
+void load_node_file(char filename[], int lines);
 
 int main ( int argc, char *argv[] )
 {
@@ -59,11 +61,20 @@ void menu() {
 }
 
 void startup() {
-	char info_filename[30], competitor_filename[30];
-        int competitor_lines;
+	char info_filename[30], competitor_filename[30]
+           , node_filename[30];
+        int competitor_lines, node_lines;
 	printf("Please enter the file for the event information > ");
 	scanf(" %30s", info_filename);
 	load_info_file(info_filename);
+        
+        printf("Please enter the file for the node type > ");
+        scanf(" %30s", node_filename);
+        node_lines = get_number_lines(node_filename);
+        if(0 < node_lines) {
+            node_types = malloc(node_lines * sizeof(struct Node));
+            load_node_file(node_filename, node_lines);
+        }
         
         printf("Please enter the file for the competitors > ");
         scanf(" %30s", competitor_filename);
@@ -71,15 +82,11 @@ void startup() {
         competitor_lines = get_number_lines(competitor_filename);
         if(0 < competitor_lines) {
             printf("Number of lines: %d\n", competitor_lines);
-            //*competitors = malloc(competitor_lines * sizeof(struct Competitor));
             competitor = malloc(competitor_lines * sizeof(struct Competitor));
             load_comp_file(competitor_filename, competitor_lines);
         }
         
         no_competitors = competitor_lines;
-        //nodes
-        //tracks
-        //courses
 }
 
 void load_info_file(char filename[]) {
@@ -125,7 +132,6 @@ int get_number_lines(char filename[]) {
 void load_comp_file(char filename[], int lines) {
     FILE* fp;
     int i = 0;
-    char name[50];
     fp = fopen(filename, "r");
     for(i = 0; i < lines; i++) {
         fscanf(fp, "%d %c %50[A-Za-z ]\n", 
@@ -141,4 +147,16 @@ void print_competitor(struct Competitor comp) {
             comp.name,
             comp.id,
             comp.course_id);
+}
+
+void load_node_file(char filename[], int lines) {
+    FILE* fp;
+    int i = 0;
+    fp = fopen(filename, "r");
+    for(i = 0; i < lines; i++) {
+        fscanf(fp, "%d %2s\n",
+                &node_types[i].id,
+                node_types[i].type);
+    }
+    fclose(fp);
 }
