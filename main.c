@@ -137,7 +137,7 @@ void print_competitors() {
 }
 
 void print_competitor(struct Competitor comp) {
-    printf("Name: %s \t ID: %d \t Course ID: %c  Start Date; %s\n",
+    printf("Name: %30s \t ID: %d \t Course ID: %c  Start Date; %s\n",
             comp.name,
             comp.id,
             comp.course_id,

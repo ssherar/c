@@ -93,6 +93,7 @@ void load_courses_file(char filename[], int lines, Course *course,
             } else {
                 insert_node((Course_Node*) course[i].head, tmp);
             }
+            fscanf(fp, "\n");
         }
         for(comp_index = 0; comp_index < comp_lines; comp_index++) {
             if(course[i].id_name == comp[comp_index].course_id) {
