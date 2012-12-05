@@ -23,11 +23,11 @@
 
 
 struct Event_Info event;
-struct Competitor *competitor;
+struct Competitor* competitor;
 struct Node *node_types;
 Course *course;
 Track *tracks;
-int no_competitors = 0;
+int no_competitors = 0, no_courses;
 
 void menu();
 void startup();
@@ -55,8 +55,30 @@ void menu() {
         scanf(" %c", &menu_choice);
         if ('1' == menu_choice) {
 
-        } 
+        } else if('2' == menu_choice) {
+          printf("\t1)\tQuery how many which haven't started\n");
+          printf("\t2)\tQuery how many people are on the courses\n");
+          printf("\t3)\tQuery how many people have finished\n");
+          printf("\n > ");
+          scanf(" %c", &menu_choice);
+          if('1' == menu_choice) {
+              int not_started = find_not_started(competitor, no_competitors);
+              printf("Number of competitors not started: %d\n", not_started);
+          }
+        } else if('5' == menu_choice) {
+            print_competitors();
+        }
     } while (menu_choice != 'q');
+}
+
+int find_not_started(Competitor comp[], int no_comp) {
+    int amount = 0, i = 0;
+    for(i = 0; i < no_comp; i++) {
+        if(strcmp(comp[i].course.start_time, "NULL") == 0) {
+            amount++;
+        }
+    }
+    return amount;
 }
 
 void startup() {
@@ -72,16 +94,17 @@ void startup() {
     scanf(" %30s", node_filename);
     node_lines = get_number_lines(node_filename);
     if (0 < node_lines) {
-        node_types = malloc(node_lines * sizeof (struct Node));
+        node_types = (Node*) malloc(node_lines * sizeof (struct Node));
         load_node_file(node_filename, node_lines, node_types);
     }
 
     printf("Please enter the file for the competitors > ");
     scanf(" %30s", competitor_filename);
     competitor_lines = get_number_lines(competitor_filename);
-
+    no_competitors = competitor_lines;
+    
     if (0 < competitor_lines) {
-        competitor = malloc(competitor_lines * sizeof (struct Competitor));
+        competitor = (Competitor*) malloc(competitor_lines * sizeof (Competitor));
         load_comp_file(competitor_filename, competitor_lines, competitor);
     }
     printf("Please enter the file for the courses > ");
@@ -89,9 +112,9 @@ void startup() {
     courses_lines = get_number_lines(course_filename);
 
     if (0 < courses_lines) {
-        course = malloc(courses_lines * sizeof (Course));
+        course = (Course*) malloc(courses_lines * sizeof (Course));
         load_courses_file(course_filename, courses_lines,
-                course, node_types);
+                course, node_types, competitor, no_competitors);
     }
 
     printf("Please enter the file for the tracks > ");
@@ -99,19 +122,26 @@ void startup() {
     tracks_lines = get_number_lines(tracks_filename);
 
     if (0 < tracks_lines) {
-        tracks = malloc(tracks_lines * sizeof (Track));
-        load_track_file(tracks_filename, tracks_lines, &tracks);
+        tracks = (Track*) malloc(tracks_lines * sizeof (Track));
+        load_track_file(tracks_filename, tracks_lines, tracks);
     }
 
-    no_competitors = competitor_lines;
+    no_courses = courses_lines;
 }
 
+void print_competitors() {
+    int i;
+    for(i = 0; i < no_competitors; i++) {
+        print_competitor(competitor[i]);
+    }
+}
 
 void print_competitor(struct Competitor comp) {
-    printf("Name: %s \t ID: %d \t Course ID: %c \n",
+    printf("Name: %s \t ID: %d \t Course ID: %c  Start Date; %s\n",
             comp.name,
             comp.id,
-            comp.course_id);
+            comp.course_id,
+            comp.course.start_time);
 }
 
 

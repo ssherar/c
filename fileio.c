@@ -42,14 +42,14 @@ int get_number_lines(char filename[]) {
     return lines;
 }
 
-void load_comp_file(char filename[], int lines, Competitor *comp) {
+void load_comp_file(char filename[], int lines, Competitor comp[]) {
     FILE* fp;
     int i = 0;
     fp = fopen(filename, "r");
     for (i = 0; i < lines; i++) {
         fscanf(fp, "%d %c %50[A-Za-z ]\n",
                 &comp[i].id,
-                comp[i].course_id,
+                &comp[i].course_id,
                 comp[i].name);
     }
     fclose(fp);
@@ -68,9 +68,9 @@ void load_node_file(char filename[], int lines, Node *node_types) {
 }
 
 void load_courses_file(char filename[], int lines, Course *course, 
-        Node *node_types) {
+        Node *node_types, Competitor *comp, int comp_lines) {
     FILE* fp;
-    int i = 0, j = 0, amount_nodes = 0;
+    int i = 0, j = 0, amount_nodes = 0, comp_index = 0;
     char id;
     fp = fopen(filename, "r");
     for (i = 0; i < lines; i++) {
@@ -78,6 +78,8 @@ void load_courses_file(char filename[], int lines, Course *course,
         course[i].id_name = id;
         course[i].length = amount_nodes;
         course[i].head = NULL;
+        strcpy(course[i].start_time, "NULL");
+        strcpy(course[i].end_time, "NULL");
         for (j = 0; j < amount_nodes; j++) {
             int val = 0;
             Course_Node *tmp;
@@ -90,6 +92,11 @@ void load_courses_file(char filename[], int lines, Course *course,
                 course[i].head = tmp;
             } else {
                 insert_node((Course_Node*) course[i].head, tmp);
+            }
+        }
+        for(comp_index = 0; comp_index < comp_lines; comp_index++) {
+            if(course[i].id_name == comp[comp_index].course_id) {
+                comp[comp_index].course = course[i];
             }
         }
     }

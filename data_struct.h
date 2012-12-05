@@ -25,18 +25,22 @@ typedef struct Event_Info {
 typedef struct Course{
    char id_name;
    int length;
+   char start_time[5];
+   char end_time[5];
    struct Course_Node **head;
 } Course;
 
 typedef struct Course_Node {
     int node_id;
     char type[2];
+    int elapsed_time;
     struct Course_Node *next;
 } Course_Node;
 
 typedef struct Competitor {
     int id;
     char course_id;
+    Course course;
     char name[50];
 } Competitor;
 
