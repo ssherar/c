@@ -48,7 +48,7 @@ void menu() {
                 event.name, event.date, event.time);
         printf("\t1)\tQuery Location of Competitor\n");
         printf("\t2)\tQuery status of competitors\n");
-        printf("\t3)\tSupply times for individual competitors\n");
+        printf("\t3)\tSupply times for individual competitor\n");
         printf("\t4)\tRead checkpoint data from file\n");
         printf("\t5)\tList competitors with times\n");
         printf("\tq)\tExit the application\n");
@@ -56,6 +56,16 @@ void menu() {
         scanf(" %c", &menu_choice);
         if ('1' == menu_choice) {
 
+        } else if('3' == menu_choice) {
+            int id = -1, node_id = -1;
+            char time[5];
+            printf("Please enter the ID for the competitor > ");
+            scanf(" %d", &id);
+            printf("Please enter the node which he has just hit > ");
+            scanf(" %d", &node_id);
+            printf("Please enter the time he reached the checkpoint > ");
+            scanf(" %5s", time);
+            insert_checkpoint_data(id, node_id, time);
         } else if('2' == menu_choice) {
           printf("\t1)\tQuery how many which haven't started\n");
           printf("\t2)\tQuery how many people are on the courses\n");
@@ -67,7 +77,7 @@ void menu() {
               printf("Number of competitors not started: %d\n", not_started);
           }
         } else if('4' == menu_choice) { 
-            load_time_file("data/cp_time_1.txt", 29, competitor, no_competitors);
+            load_time_file("data/cp_times_1.txt", 29, competitor, no_competitors);
         } else if('5' == menu_choice) {
             print_competitors();
         }
@@ -145,4 +155,14 @@ void print_competitor(struct Competitor comp) {
             comp.id,
             comp.course_id,
             comp.course.start_time);
+}
+
+void insert_checkpoint_data(int comp_id, int checkpoint_id, char time[]) {
+    Course_Node* found = (Course_Node*) find_node(competitor[comp_id].course.head
+                          , checkpoint_id);
+    strcpy(found->time, time);
+    printf("Node %d was hit at %s by competitor %d\n",
+            found->node_id,
+            found->time,
+            comp_id);
 }

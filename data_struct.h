@@ -33,7 +33,7 @@ typedef struct Course{
 typedef struct Course_Node {
     int node_id;
     char type[2];
-    int elapsed_time;
+    char time[5];
     struct Course_Node *next;
 } Course_Node;
 

@@ -124,11 +124,11 @@ void load_track_file(char filename[], int length, Track *tracks) {
 void load_time_file(char filename[], int length, Competitor* comp, int comp_length) {
     FILE* fp;
     int i = 0, node_index, comp_index;
-    char cp_type, date[5];
+    char cp_type[3], date[5];
     fp = fopen(filename, "r");
     for(i = 0; i < length; i++) {
-        fscanf(fp,"%s %d %d %5s\n",
-                &cp_type,
+        fscanf(fp,"%c %d %d %5s\n",
+                cp_type,
                 &node_index,
                 &comp_index,
                 date);
