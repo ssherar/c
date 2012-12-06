@@ -87,6 +87,7 @@ void load_courses_file(char filename[], int lines, Course *course,
             tmp = malloc(sizeof (Course_Node));
             fscanf(fp, " %d", &val);
             strcpy(tmp->type, node_types[val].type);
+            tmp->time[0] = NULL;
             tmp->node_id = val;
             tmp->next = NULL;
             if (0 == j) {
