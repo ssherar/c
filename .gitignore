@@ -19,4 +19,4 @@
 # Netbeans
 nbproject/*
 /build/
-/dist/
+/dist/Makefile
