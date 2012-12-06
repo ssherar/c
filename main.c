@@ -140,6 +140,12 @@ void startup() {
     }
 
     no_courses = courses_lines;
+    free(courses_lines);
+    free(info_filename);
+    free(competitor_filename);
+    free(node_filename);
+    free(course_filename);
+    free(tracks_filename);
 }
 
 void print_competitors() {
