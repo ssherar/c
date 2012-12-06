@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "fileio.h"
+#include "node.h"
 //#include "data_struct.h"
 
 void load_info_file(char filename[], Event_Info *event) {
@@ -116,6 +117,26 @@ void load_track_file(char filename[], int length, Track *tracks) {
                 &tracks[i].start,
                 &tracks[i].finish,
                 &tracks[i].time);
+    }
+    fclose(fp);
+}
+
+void load_time_file(char filename[], int length, Competitor* comp, int comp_length) {
+    FILE* fp;
+    int i = 0, node_index, comp_index;
+    char cp_type, date[5];
+    fp = fopen(filename, "r");
+    for(i = 0; i < length; i++) {
+        fscanf(fp,"%s %d %d %5s\n",
+                &cp_type,
+                &node_index,
+                &comp_index,
+                date);
+        if('T' == cp_type) {
+            Course_Node *current = find_node((Course_Node*) comp[comp_index].course.head,
+                    node_index);
+            printf("%d\n", current->node_id);
+        }
     }
     fclose(fp);
 }

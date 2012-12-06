@@ -20,6 +20,7 @@
 #include	<stdlib.h>
 #include        <string.h>
 #include        "fileio.h"
+#include        "node.h"
 
 
 struct Event_Info event;
@@ -65,6 +66,8 @@ void menu() {
               int not_started = find_not_started(competitor, no_competitors);
               printf("Number of competitors not started: %d\n", not_started);
           }
+        } else if('4' == menu_choice) { 
+            load_time_file("data/cp_time_1.txt", 29, competitor, no_competitors);
         } else if('5' == menu_choice) {
             print_competitors();
         }
@@ -142,25 +145,4 @@ void print_competitor(struct Competitor comp) {
             comp.id,
             comp.course_id,
             comp.course.start_time);
-}
-
-
-
-/** node.c */
-void insert_node(Course_Node* current, Course_Node* value) {
-    if (current == NULL) {
-        current = value;
-    } else if (NULL == current->next) {
-        current->next = value;
-    } else {
-        insert_node(current->next, value);
-    }
-}
-
-void print_list(Course_Node** head) {
-    Course_Node* current = (Course_Node*) head;
-    while (current != NULL) {
-        printf("%s\n", current->type);
-        current = current->next;
-    }
 }
