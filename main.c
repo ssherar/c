@@ -58,11 +58,13 @@ void menu() {
 
         } else if('3' == menu_choice) {
             int id = -1, node_id = -1;
+            int debug = -1;
             char time[5];
             printf("Please enter the ID for the competitor > ");
             scanf(" %d", &id);
             printf("Please enter the node which he has just hit > ");
-            scanf(" %d", &node_id);
+            debug = scanf(" %d", &node_id);
+            printf("%d\n", debug);
             printf("Please enter the time he reached the checkpoint > ");
             scanf(" %5s", time);
             insert_checkpoint_data(id, node_id, time);

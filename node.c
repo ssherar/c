@@ -29,7 +29,7 @@ Course_Node* find_node_head(Course_Node** head, int node_id) {
 Course_Node* check_next_empty(Course_Node** head) {
     Course_Node* current = (Course_Node*) head;
     while(current != NULL) {
-        if(!current->time) {
+        if(current->time == NULL) {
             return current;
         }
         current = current->next;
