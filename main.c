@@ -160,9 +160,14 @@ void print_competitor(struct Competitor comp) {
 void insert_checkpoint_data(int comp_id, int checkpoint_id, char time[]) {
     Course_Node* found = (Course_Node*) find_node(competitor[comp_id].course.head
                           , checkpoint_id);
-    strcpy(found->time, time);
-    printf("Node %d was hit at %s by competitor %d\n",
-            found->node_id,
-            found->time,
-            comp_id);
+    Course_Node* next_empty = (Course_Node*) check_next_empty(competitor[comp_id].course.head);
+    if(found->node_id == next_empty->node_id) {
+        strcpy(found->time, time);
+        printf("Node %d was hit at %s by competitor %d\n",
+                found->node_id,
+                found->time,
+                comp_id);
+    } else {
+        printf("Not at correct checkpoint");
+    }
 }

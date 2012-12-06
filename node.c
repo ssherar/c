@@ -25,6 +25,18 @@ Course_Node* find_node_head(Course_Node** head, int node_id) {
     return find_node((Course_Node*) head, node_id);
 }
 
+
+Course_Node* check_next_empty(Course_Node** head) {
+    Course_Node* current = (Course_Node*) head;
+    while(current != NULL) {
+        if(!current->time) {
+            return current;
+        }
+        current = current->next;
+    }
+    return NULL;
+}
+
 void print_list(Course_Node** head) {
     Course_Node* current = (Course_Node*) head;
     while (current != NULL) {

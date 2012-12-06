@@ -17,6 +17,7 @@ extern "C" {
     void print_list(Course_Node** head);
     Course_Node* find_node(Course_Node* current, int node_id);
     Course_Node* find_node_head(Course_Node** head, int node_id);
+    Course_Node* check_next_empty(Course_Node** head);
 
 #ifdef	__cplusplus
 }
