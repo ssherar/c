@@ -19,7 +19,6 @@ void load_info_file(char filename[], Event_Info *event) {
     fscanf(fp, " %5s", event->time);
 
     fclose(fp);
-    free(fp);
 }
 
 int get_number_lines(char filename[]) {
@@ -41,7 +40,6 @@ int get_number_lines(char filename[]) {
     if (0 == lines) {
         lines++; //as end of files DONT have an \n
     }
-    free(fp_number_lines);
     return lines;
 }
 
@@ -56,7 +54,6 @@ void load_comp_file(char filename[], int lines, Competitor comp[]) {
                 comp[i].name);
     }
     fclose(fp);
-    free(fp);
 }
 
 void load_node_file(char filename[], int lines, Node *node_types) {
@@ -69,7 +66,6 @@ void load_node_file(char filename[], int lines, Node *node_types) {
                 node_types[i].type);
     }
     fclose(fp);
-    free(fp);
 }
 
 void load_courses_file(char filename[], int lines, Course *course, 
@@ -107,7 +103,6 @@ void load_courses_file(char filename[], int lines, Course *course,
         }
     }
     fclose(fp);
-    free(fp);
 }
 
 void load_track_file(char filename[], int length, Track *tracks) {
@@ -124,7 +119,6 @@ void load_track_file(char filename[], int length, Track *tracks) {
                 &tracks[i].time);
     }
     fclose(fp);
-    free(fp);
 }
 
 void load_time_file(char filename[], int length, Competitor* comp, int comp_length) {
@@ -145,9 +139,4 @@ void load_time_file(char filename[], int length, Competitor* comp, int comp_leng
         }
     }
     fclose(fp);
-    free(cp_type);
-    free(date);
-    free(fp);
-    free(node_index);
-    free(comp_index);
 }
