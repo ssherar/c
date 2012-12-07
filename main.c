@@ -102,11 +102,13 @@ void startup() {
     int competitor_lines, node_lines, courses_lines, tracks_lines;
 
     printf("Please enter the file for the event information > ");
-    scanf(" %30s", info_filename);
+    //scanf(" %30s", info_filename);
+    strcpy(info_filename,"data/event_info.txt");
     load_info_file(info_filename, &event);
 
     printf("Please enter the file for the node type > ");
-    scanf(" %30s", node_filename);
+    //scanf(" %30s", node_filename);
+    strcpy(node_filename, "data/node.txt");
     node_lines = get_number_lines(node_filename);
     if (0 < node_lines) {
         node_types = (Node*) malloc(node_lines * sizeof (struct Node));
@@ -114,7 +116,8 @@ void startup() {
     }
 
     printf("Please enter the file for the competitors > ");
-    scanf(" %30s", competitor_filename);
+    //scanf(" %30s", competitor_filename);
+    strcpy(competitor_filename, "data/comp_data.txt");
     competitor_lines = get_number_lines(competitor_filename);
     no_competitors = competitor_lines;
     
@@ -123,7 +126,8 @@ void startup() {
         load_comp_file(competitor_filename, competitor_lines, competitor);
     }
     printf("Please enter the file for the courses > ");
-    scanf(" %30s", course_filename);
+    //scanf(" %30s", course_filename);
+    strcpy(course_filename, "data/courses.txt");
     courses_lines = get_number_lines(course_filename);
 
     if (0 < courses_lines) {
@@ -133,7 +137,7 @@ void startup() {
     }
 
     printf("Please enter the file for the tracks > ");
-    scanf(" %30s", tracks_filename);
+    strcpy(tracks_filename,"data/tracks.txt");
     tracks_lines = get_number_lines(tracks_filename);
 
     if (0 < tracks_lines) {
@@ -160,16 +164,20 @@ void print_competitor(struct Competitor comp) {
 }
 
 void insert_checkpoint_data(int comp_id, int checkpoint_id, char time[]) {
-    Course_Node* found = (Course_Node*) find_node(competitor[comp_id].course.head
+    Course_Node* found = (Course_Node*) find_node_head(competitor[comp_id].course.head
                           , checkpoint_id);
     Course_Node* next_empty = (Course_Node*) check_next_empty(competitor[comp_id].course.head);
-    if(found->node_id == next_empty->node_id) {
-        strcpy(found->time, time);
-        printf("Node %d was hit at %s by competitor %d\n",
-                found->node_id,
-                found->time,
-                comp_id);
+    if(next_empty != NULL) {
+        if(found == next_empty) {
+            strcpy(found->time, time);
+            printf("Node %d was hit at %s by competitor %d\n",
+                    found->node_id,
+                    found->time,
+                    comp_id);
+        } else {
+            printf("Not at correct checkpoint");
+        }
     } else {
-        printf("Not at correct checkpoint");
+        printf("Error: cannot find any empty times for Competitor %d\n");
     }
 }

@@ -17,7 +17,7 @@ Course_Node* find_node(Course_Node* current, int node_id) {
     if(current->node_id == node_id) {
         return current;
     } else {
-        find_node(current->next, node_id);
+        return find_node(current->next, node_id);
     }
 }
 
