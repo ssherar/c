@@ -132,18 +132,19 @@ void load_track_file(char filename[], int length, Track *tracks) {
 void load_time_file(char filename[], int length, Competitor* comp, int comp_length) {
     FILE* fp;
     int i = 0, node_index, comp_index;
-    char cp_type[3], date[5];
+    char buffer[100];
+    char cp_type, date[5];
     fp = fopen(filename, "r");
-    for(i = 0; i < length; i++) {
-        fscanf(fp,"%c %d %d %5s\n",
-                cp_type,
+    while(fgets(buffer,sizeof(buffer), fp) != NULL) {
+        sscanf(buffer, "%c %d %d %5s",
+                &cp_type,
                 &node_index,
                 &comp_index,
                 date);
-        if('T' == cp_type) {
-            Course_Node *current = find_node((Course_Node*) comp[comp_index].course.head,
-                    node_index);
-            printf("%d\n", current->node_id);
+        cp_type = buffer[0]; //TODO: fix the bug with sscanf fscanf for not
+                             //      picking up first character.
+        if(cp_type == 'T') {
+            insert_checkpoint_data(comp[comp_index].course.head, comp_index, node_index, date);
         }
     }
     fclose(fp);

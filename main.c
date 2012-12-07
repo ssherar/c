@@ -66,7 +66,7 @@ void menu() {
             printf("%d\n", debug);
             printf("Please enter the time he reached the checkpoint > ");
             scanf(" %5s", time);
-            insert_checkpoint_data(id, node_id, time);
+            insert_checkpoint_data(competitor[id].course.head, id, node_id, time);
         } else if('2' == menu_choice) {
           printf("\t1)\tQuery how many which haven't started\n");
           printf("\t2)\tQuery how many people are on the courses\n");
@@ -164,21 +164,3 @@ void print_competitor(struct Competitor comp) {
             comp.course.start_time);
 }
 
-void insert_checkpoint_data(int comp_id, int checkpoint_id, char time[]) {
-    Course_Node* found = (Course_Node*) find_node_head(competitor[comp_id].course.head
-                          , checkpoint_id);
-    Course_Node* next_empty = (Course_Node*) check_next_empty(competitor[comp_id].course.head);
-    if(next_empty != NULL) {
-        if(found == next_empty) {
-            strcpy(found->time, time);
-            printf("Node %d was hit at %s by competitor %d\n",
-                    found->node_id,
-                    found->time,
-                    comp_id);
-        } else {
-            printf("Not at correct checkpoint");
-        }
-    } else {
-        printf("Error: cannot find any empty times for Competitor %d\n");
-    }
-}
