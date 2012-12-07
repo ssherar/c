@@ -102,6 +102,10 @@ void load_courses_file(char filename[], int lines,
                     if(0 == node_index) {
                         comp[comp_index].course.head = tmp;
                         comp[comp_index].course.start_time = &tmp->time;
+                    } else if(node_index == (amount -1)) {
+                        insert_node((Course_Node*) comp[comp_index].course.head
+                                , tmp);
+                        comp[comp_index].course.end_time = &tmp->time;
                     } else {
                         insert_node((Course_Node*) comp[comp_index].course.head
                                 , tmp);

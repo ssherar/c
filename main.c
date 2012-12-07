@@ -98,6 +98,17 @@ int find_not_started(Competitor comp[], int no_comp) {
     return amount;
 }
 
+int find_finished(Competitor comp[], int no_comp) {
+    int amount =0, i = 0;
+    for(i = 0; i < no_comp; i++) {
+        if(*comp[i].course.end_time != NULL &&
+                *comp[i].course.start_time != NULL) {
+            amount++;
+        } 
+    }
+    return amount;
+}
+
 void startup() {
     char info_filename[30], competitor_filename[30]
             , node_filename[30], course_filename[30], tracks_filename[30];

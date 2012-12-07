@@ -27,7 +27,7 @@ typedef struct Course{
    int length;
    //char start_time[5];
    int *start_time;
-   char end_time[5];
+   int *end_time;
    struct Course_Node **head;
 } Course;
 
