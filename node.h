@@ -20,6 +20,7 @@ extern "C" {
     Course_Node* check_next_empty(Course_Node** head);
     void insert_checkpoint_data(Course** head, int comp_id, int checkpoint_id, char time[]);
     void insert_checkpoint_data_manually(Course** head, int comp_id, int checkpoint_id, char time[]);
+    Course_Node* find_current_node(Course_Node** head);
 
 #ifdef	__cplusplus
 }

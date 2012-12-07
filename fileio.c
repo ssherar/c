@@ -146,7 +146,7 @@ void load_time_file(char filename[], int length, Competitor* comp, int comp_leng
     fp = fopen(filename, "r");
     //while(fgets(buffer,sizeof(buffer), fp) != NULL) {
     for(i = 0; i < length; i++) {
-        fscanf(fp, " %c %d %d %5s\n",
+        fscanf(fp, "%c %d %d %5s\n",
                 &cp_type,
                 &node_index,
                 &comp_index,

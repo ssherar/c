@@ -54,7 +54,12 @@ void menu() {
         printf("\n > ");
         scanf(" %c", &menu_choice);
         if ('1' == menu_choice) {
-
+            Course_Node *current_node = (Course_Node*) find_current_node(competitor[0].course.head);
+            printf("Competitor %s is currently past checkpoint %d at time %s\n",
+                    competitor[0].name,
+                    current_node->node_id,
+                    current_node->time);
+            
         } else if('3' == menu_choice) {
             int id = -1, node_id = -1;
             int debug = -1;
@@ -81,8 +86,8 @@ void menu() {
             load_time_file("data/cp_times_1.txt", 29, competitor, no_competitors);
             //load_time_file("data/cp_data_2.txt", 32, competitor, no_competitors);
         } else if('5' == menu_choice) {
-            //print_competitors();
-            print_list((Course_Node*) competitor[0].course.head);
+            print_competitors();
+            //print_list((Course_Node*) competitor[0].course.head);
         }
     } while (menu_choice != 'q');
 }
@@ -170,7 +175,7 @@ void print_competitors() {
 }
 
 void print_competitor(struct Competitor comp) {
-    printf("Name: %30s \t ID: %2d \t Course ID: %c  Start: %s\tEnd: %s\n",
+    printf("Name: %-30s \t ID: %2d \t Course ID: %c  Start: %s\tEnd: %s\n",
             comp.name,
             comp.id,
             comp.course_id,
