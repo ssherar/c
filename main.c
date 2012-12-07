@@ -67,8 +67,7 @@ void menu() {
             printf("Please enter the ID for the competitor > ");
             scanf(" %d", &id);
             printf("Please enter the node which he has just hit > ");
-            debug = scanf(" %d", &node_id);
-            printf("%d\n", debug);
+            scanf(" %d", &node_id);
             printf("Please enter the time he reached the checkpoint > ");
             scanf(" %5s", time);
             insert_checkpoint_data_manually(competitor[id-1].course.head, id, node_id, time);

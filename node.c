@@ -85,7 +85,7 @@ void insert_checkpoint_data_manually(Course** head, int comp_id, int checkpoint_
     Course_Node* found = (Course_Node*) find_node_head(head, checkpoint_id);
     if(found != NULL) {
         strcpy(found->time, time);
-        printf("Node %d was h2it at %s by competitor %d\n",
+        printf("Node %d was hit at %s by competitor %d\n",
                     found->node_id,
                     found->time,
                     comp_id);
