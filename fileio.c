@@ -142,7 +142,7 @@ void load_time_file(char filename[], int length, Competitor* comp, int comp_leng
     FILE* fp;
     int i = 0, node_index, comp_index;
     char buffer[100];
-    char cp_type, date[5];
+    char cp_type, date[6];
     fp = fopen(filename, "r");
     //while(fgets(buffer,sizeof(buffer), fp) != NULL) {
     for(i = 0; i < length; i++) {
@@ -151,8 +151,7 @@ void load_time_file(char filename[], int length, Competitor* comp, int comp_leng
                 &node_index,
                 &comp_index,
                 date);
-        cp_type = 'T'; //TODO: fix the bug with sscanf fscanf for not
-                              //      picking up first character.
+        
         if(cp_type == 'T') {
             insert_checkpoint_data(comp[comp_index - 1].course.head, comp_index, node_index, date);
         }
