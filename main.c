@@ -54,7 +54,11 @@ void menu() {
         printf("\n > ");
         scanf(" %c", &menu_choice);
         if ('1' == menu_choice) {
-            Course_Node *current_node = (Course_Node*) find_current_node(competitor[0].course.head);
+            int comp_id;
+            printf("Please enter a competitor id > ");
+            scanf(" %d", &comp_id);
+            comp_id -= 1;
+            Course_Node *current_node = (Course_Node*) find_current_node(competitor[comp_id].course.head);
             printf("Competitor %s is currently past checkpoint %d at time %s\n",
                     competitor[0].name,
                     current_node->node_id,
