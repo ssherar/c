@@ -89,7 +89,10 @@ void menu() {
 int find_not_started(Competitor comp[], int no_comp) {
     int amount = 0, i = 0;
     for(i = 0; i < no_comp; i++) {
-        if(strcmp(comp[i].course.start_time, "NULL") == 0) {
+        /*if(strcmp(comp[i].course.start_time, "NULL") == 0) {
+            amount++;
+        }*/
+        if(*comp[i].course.start_time == NULL) {
             amount++;
         }
     }

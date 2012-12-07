@@ -25,7 +25,8 @@ typedef struct Event_Info {
 typedef struct Course{
    char id_name;
    int length;
-   char start_time[5];
+   //char start_time[5];
+   int *start_time;
    char end_time[5];
    struct Course_Node **head;
 } Course;

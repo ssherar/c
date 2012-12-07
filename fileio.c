@@ -79,7 +79,7 @@ void load_courses_file(char filename[], int lines, Course *course,
         course[i].id_name = id;
         course[i].length = amount_nodes;
         course[i].head = NULL;
-        strcpy(course[i].start_time, "NULL");
+        //strcpy(course[i].start_time, "NULL");
         strcpy(course[i].end_time, "NULL");
         for (j = 0; j < amount_nodes; j++) {
             int val = 0;
@@ -92,6 +92,7 @@ void load_courses_file(char filename[], int lines, Course *course,
             tmp->next = NULL;
             if (0 == j) {
                 course[i].head = tmp;
+                course[i].start_time = &tmp->time; 
             } else {
                 insert_node((Course_Node*) course[i].head, tmp);
             }
