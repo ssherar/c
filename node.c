@@ -65,7 +65,8 @@ void insert_checkpoint_data(Course** head, int comp_id, int checkpoint_id, char 
                     found->time,
                     comp_id);
         } else {
-            printf("Not at correct checkpoint");
+            printf("Not at correct checkpoint for COMP %d at NODE %d\n",
+                    comp_id, checkpoint_id);
         }
     } else {
         printf("Error: cannot find any empty times for Competitor %d\n");

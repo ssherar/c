@@ -96,8 +96,9 @@ void load_courses_file(char filename[], int lines,
                 
                 for(node_index = 0; node_index < amount; node_index++) {
                     Course_Node *tmp = malloc(sizeof(Course_Node));
-                    char type[2];
-                    strcpy(tmp->type, node_types[node_index].type);
+                    int node_val = nodes[node_index];
+                    printf("%d ", node_val);
+                    strcpy(tmp->type, node_types[node_val - 1].type);
                     tmp->time[0] = NULL;
                     tmp->node_id = nodes[node_index];
                     tmp->next = NULL;
@@ -113,11 +114,13 @@ void load_courses_file(char filename[], int lines,
                                 , tmp);
                     }
                 }
+                printf("\n");
             }
         }
     }
     fclose(fp);
 }
+
 
 void load_track_file(char filename[], int length, Track *tracks) {
     FILE* fp;

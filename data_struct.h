@@ -33,8 +33,8 @@ typedef struct Course{
 
 typedef struct Course_Node {
     int node_id;
-    char type[2];
-    char time[5];
+    char type[3];
+    char time[6];
     struct Course_Node *next;
 } Course_Node;
 

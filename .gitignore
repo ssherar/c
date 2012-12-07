@@ -21,3 +21,10 @@ nbproject/*
 /build/
 /dist/Makefile
 /dist/
+data/user1.txt
+
+data/.node.txt.swp
+
+data/.DS_Store
+
+.DS_Store
