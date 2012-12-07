@@ -26,7 +26,6 @@
 struct Event_Info event;
 struct Competitor* competitor;
 struct Node *node_types;
-Course *course;
 Track *tracks;
 int no_competitors = 0, no_courses;
 
@@ -134,9 +133,8 @@ void startup() {
     courses_lines = get_number_lines(course_filename);
 
     if (0 < courses_lines) {
-        course = (Course*) malloc(courses_lines * sizeof (Course));
         load_courses_file(course_filename, courses_lines,
-                course, node_types, competitor, no_competitors);
+                 node_types, competitor, no_competitors);
     }
 
     printf("Please enter the file for the tracks > ");
