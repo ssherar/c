@@ -93,9 +93,11 @@ void load_courses_file(char filename[], int lines,
                 //if course id matches
             if(id == comp[comp_index].course_id) {
                         //create linked list
-                Course_Node *tmp = malloc(sizeof(Course_Node));
+                
                 for(node_index = 0; node_index < amount; node_index++) {
-                    strcpy(tmp->type, &node_types[nodes[node_index]]);
+                    Course_Node *tmp = malloc(sizeof(Course_Node));
+                    char type[2];
+                    strcpy(tmp->type, node_types[node_index].type);
                     tmp->time[0] = NULL;
                     tmp->node_id = nodes[node_index];
                     tmp->next = NULL;
@@ -139,16 +141,17 @@ void load_time_file(char filename[], int length, Competitor* comp, int comp_leng
     char buffer[100];
     char cp_type, date[5];
     fp = fopen(filename, "r");
-    while(fgets(buffer,sizeof(buffer), fp) != NULL) {
-        sscanf(buffer, "%c %d %d %5s",
+    //while(fgets(buffer,sizeof(buffer), fp) != NULL) {
+    for(i = 0; i < length; i++) {
+        fscanf(fp, " %c %d %d %5s\n",
                 &cp_type,
                 &node_index,
                 &comp_index,
                 date);
-        cp_type = buffer[0]; //TODO: fix the bug with sscanf fscanf for not
-                             //      picking up first character.
+        cp_type = 'T'; //TODO: fix the bug with sscanf fscanf for not
+                              //      picking up first character.
         if(cp_type == 'T') {
-            insert_checkpoint_data(comp[comp_index].course.head, comp_index, node_index, date);
+            insert_checkpoint_data(comp[comp_index - 1].course.head, comp_index, node_index, date);
         }
     }
     fclose(fp);

@@ -66,7 +66,7 @@ void menu() {
             printf("%d\n", debug);
             printf("Please enter the time he reached the checkpoint > ");
             scanf(" %5s", time);
-            insert_checkpoint_data(competitor[id].course.head, id, node_id, time);
+            insert_checkpoint_data_manually(competitor[id-1].course.head, id, node_id, time);
         } else if('2' == menu_choice) {
           printf("\t1)\tQuery how many which haven't started\n");
           printf("\t2)\tQuery how many people are on the courses\n");
@@ -80,7 +80,8 @@ void menu() {
         } else if('4' == menu_choice) { 
             load_time_file("data/cp_times_1.txt", 29, competitor, no_competitors);
         } else if('5' == menu_choice) {
-            print_competitors();
+            //print_competitors();
+            print_list((Course_Node*) competitor[1].course.head);
         }
     } while (menu_choice != 'q');
 }
