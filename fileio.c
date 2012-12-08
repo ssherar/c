@@ -11,7 +11,7 @@
  *       Revision:  none
  *       Compiler:  gcc -Wall
  *
- *         Author:  Samuel Sherar (sbs), sbs1@aber.ac.uk
+ *         Author:  Samuel Sherar (sbs1), sbs1@aber.ac.uk
  *        Company:  Aberystwyth University
  *
  * =====================================================================================

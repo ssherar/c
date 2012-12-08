@@ -1,8 +1,19 @@
-/* 
- * File:   fileio.h
- * Author: sam
+/*
+ * =====================================================================================
  *
- * Created on December 4, 2012, 6:26 PM
+ *       Filename:  fileio.h
+ *
+ *    Description:  the header file for the filio.c
+ *
+ *        Version:  1.0
+ *        Created:  11/30/2012 04:45:03 PM
+ *       Revision:  none
+ *       Compiler:  gcc -Wall
+ *
+ *         Author:  Samuel Sherar (sbs1), sbs1@aber.ac.uk
+ *        Company:  Aberystwyth University
+ *
+ * =====================================================================================
  */
 
 #ifndef FILEIO_H
