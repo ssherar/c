@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
 void menu() {
     char menu_choice = 'A';
     do {
-        printf("Welcome to %s on %s %s! \n\n",
+        printf("\n\nWelcome to %s on %s %s! \n\n",
                 event.name, event.date, event.time);
         printf("\t1)\tQuery Location of Competitor\n");
         printf("\t2)\tQuery status of competitors\n");
@@ -53,21 +53,28 @@ void menu() {
         printf("\tq)\tExit the application\n");
         printf("\n > ");
         scanf(" %c", &menu_choice);
+        printf("\n\n");
         if ('1' == menu_choice) {
             int comp_id;
             printf("Please enter a competitor id > ");
             scanf(" %d", &comp_id);
             comp_id -= 1;
-            Course_Node *current_node = (Course_Node*) find_current_node(competitor[comp_id].course.head);
-            printf("Competitor %s is currently past checkpoint %d at time %s\n",
-                    competitor[comp_id].name,
-                    current_node->node_id,
-                    current_node->time);
-
-            
+            if(*competitor[comp_id].course.start_time == NULL) {
+                printf("Competitor %s has not started yet\n", competitor[comp_id].name);
+            }else if(*competitor[comp_id].course.start_time != NULL &&
+                    *competitor[comp_id].course.end_time != NULL) {
+                printf("Competitor %s has finished with the time of %s\n",
+                        competitor[comp_id].name,
+                        competitor[comp_id].course.end_time);
+            } else {
+                Course_Node *current_node = (Course_Node*) find_current_node(competitor[comp_id].course.head);
+                printf("Competitor %s is currently past checkpoint %d at time %s\n",
+                        competitor[comp_id].name,
+                        current_node->node_id,
+                        current_node->time);
+            }
         } else if('3' == menu_choice) {
             int id = -1, node_id = -1;
-            int debug = -1;
             char time[5];
             printf("Please enter the ID for the competitor > ");
             scanf(" %d", &id);
@@ -100,7 +107,6 @@ void menu() {
             load_time_file(cp_data_filename, cp_data_lines, competitor, no_competitors);
         } else if('5' == menu_choice) {
             print_competitors();
-            print_list(competitor[0].course.head);
         }
     } while (menu_choice != 'q');
 }
@@ -190,13 +196,19 @@ void startup() {
 
 void print_competitors() {
     int i;
+    printf("%-30s %-10s %-15s %-15s %-15s\n",
+            "Name",
+            "ID",
+            "Course ID",
+            "Start Time",
+            "End Time");
     for(i = 0; i < no_competitors; i++) {
         print_competitor(competitor[i]);
     }
 }
 
 void print_competitor(struct Competitor comp) {
-    printf("Name: %-30s \t ID: %2d \t Course ID: %c  Start: %s\tEnd: %s\n",
+    printf("%-30s %-10d %-15c %-15s %-15s\n",
             comp.name,
             comp.id,
             comp.course_id,
