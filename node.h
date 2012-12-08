@@ -1,9 +1,21 @@
-/* 
- * File:   node.h
- * Author: sam
+/*
+ * =====================================================================================
  *
- * Created on December 6, 2012, 5:09 PM
+ *       Filename:  node.h
+ *
+ *    Description:  Functions for manipulating linked list data structures
+ *
+ *        Version:  1.0
+ *        Created:  12/02/2012 00:12:41 AM
+ *       Revision:  none
+ *       Compiler:  gcc -Wall
+ *
+ *         Author:  Samuel Sherar (sbs1), sbs1@aber.ac.uk
+ *        Company:  Aberystwyth University
+ *
+ * =====================================================================================
  */
+
 
 #ifndef NODE_H
 #define	NODE_H
