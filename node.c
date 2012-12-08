@@ -86,7 +86,8 @@ void insert_checkpoint_data(Course** head, int comp_id, int checkpoint_id, char 
                     comp_id, checkpoint_id);
         }*/
     } else {
-        printf("Error: cannot find any empty times for Competitor %d\n");
+        printf("Error: cannot find any empty times for Competitor %d\n",
+                comp_id);
     }
 }
 
