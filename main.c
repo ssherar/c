@@ -60,9 +60,10 @@ void menu() {
             comp_id -= 1;
             Course_Node *current_node = (Course_Node*) find_current_node(competitor[comp_id].course.head);
             printf("Competitor %s is currently past checkpoint %d at time %s\n",
-                    competitor[0].name,
+                    competitor[comp_id].name,
                     current_node->node_id,
                     current_node->time);
+
             
         } else if('3' == menu_choice) {
             int id = -1, node_id = -1;
@@ -84,13 +85,22 @@ void menu() {
           if('1' == menu_choice) {
               int not_started = find_not_started(competitor, no_competitors);
               printf("Number of competitors not started: %d\n", not_started);
+          } else if ('2' == menu_choice) {
+              int running = find_running(competitor, no_competitors);
+              printf("Number of competitors running: %d\n", running);
+          } else if('3' == menu_choice) {
+              int finished = find_finished(competitor, no_competitors);
+              printf("Number of competitors finished: %d\n", finished);
           }
-        } else if('4' == menu_choice) { 
-            load_time_file("data/cp_times_1.txt", 29, competitor, no_competitors);
-            //load_time_file("data/cp_data_2.txt", 32, competitor, no_competitors);
+        } else if('4' == menu_choice) {
+            char cp_data_filename[30];
+            printf("Please enter the data file for the checkpoints > ");
+            scanf(" %30s", cp_data_filename);
+            int cp_data_lines = get_number_lines(cp_data_filename);
+            load_time_file(cp_data_filename, cp_data_lines, competitor, no_competitors);
         } else if('5' == menu_choice) {
             print_competitors();
-            //print_list((Course_Node*) competitor[0].course.head);
+            print_list(competitor[0].course.head);
         }
     } while (menu_choice != 'q');
 }
@@ -98,14 +108,22 @@ void menu() {
 int find_not_started(Competitor comp[], int no_comp) {
     int amount = 0, i = 0;
     for(i = 0; i < no_comp; i++) {
-        /*if(strcmp(comp[i].course.start_time, "NULL") == 0) {
-            amount++;
-        }*/
         if(*comp[i].course.start_time == NULL) {
             amount++;
         }
     }
     return amount;
+}
+
+
+int find_running(Competitor comp[], int no_comp) {
+    int amount = 0, i = 0;
+    for(i = 0; i < no_comp; i++) {
+        if(*comp[i].course.start_time != NULL &&
+                *comp[i].course.end_time == NULL) {
+            amount++;
+        }
+    }
 }
 
 int find_finished(Competitor comp[], int no_comp) {

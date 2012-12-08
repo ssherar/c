@@ -47,16 +47,25 @@ Course_Node* check_next_empty(Course_Node** head) {
 
 Course_Node* find_current_node(Course_Node** head) {
     Course_Node* current = (Course_Node*) head;
-    while(current->next->time[0] != NULL) {
+    Course_Node* prev_cp;
+    while(current != NULL) {
+        printf("Checking %d\n", current->node_id);
+        if(strcmp(current->type, "CP") == 0) {
+            if(current->time[0] == NULL) {
+                return prev_cp;
+            }
+            prev_cp = current;
+        }
+        
         current = current->next;
     }
-    return current;
+    return NULL;
 }
 
 void print_list(Course_Node** head) {
     Course_Node* current = (Course_Node*) head;
     while (current != NULL) {
-        printf("%d\t%s\n", current->node_id, current->type);
+        printf("%d\t%s\t%s\n", current->node_id, current->type, current->time);
         current = current->next;
     }
 }
@@ -65,17 +74,17 @@ void print_list(Course_Node** head) {
 void insert_checkpoint_data(Course** head, int comp_id, int checkpoint_id, char *time) {
     Course_Node* found = (Course_Node*) find_node_head(head, checkpoint_id);
     Course_Node* next_empty = (Course_Node*) check_next_empty(head);
-    if(next_empty != NULL) {
-        if(found == next_empty) {
-            strcpy(found->time, time);
+    if(found != NULL && next_empty != NULL) {
+        //if(found == next_empty) {
+            strcpy(next_empty->time, time);
             printf("Node %d was hit at %s by competitor %d\n",
-                    found->node_id,
-                    found->time,
+                    next_empty->node_id,
+                    next_empty->time,
                     comp_id);
-        } else {
+        /*} else {
             printf("Not at correct checkpoint for COMP %d at NODE %d\n",
                     comp_id, checkpoint_id);
-        }
+        }*/
     } else {
         printf("Error: cannot find any empty times for Competitor %d\n");
     }
