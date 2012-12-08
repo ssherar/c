@@ -1,10 +1,33 @@
+/*
+ * =====================================================================================
+ *
+ *       Filename:  fileio.c
+ *
+ *    Description:  The file handling file, which stores the data in the 
+ *                  relevant data structures created in data_struct.h
+ *
+ *        Version:  1.0
+ *        Created:  11/30/2012 02:15:43 PM
+ *       Revision:  none
+ *       Compiler:  gcc -Wall
+ *
+ *         Author:  Samuel Sherar (sbs), sbs1@aber.ac.uk
+ *        Company:  Aberystwyth University
+ *
+ * =====================================================================================
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "fileio.h"
 #include "node.h"
-//#include "data_struct.h"
 
+/**
+ * The method to read in the info file
+ * @param filename the filename of the event file
+ * @param event a pointer to the event data structure
+ */
 void load_info_file(char filename[], Event_Info *event) {
     FILE* fp = NULL;
 
@@ -21,6 +44,12 @@ void load_info_file(char filename[], Event_Info *event) {
     fclose(fp);
 }
 
+/**
+ * Reads through the whole file checking for the
+ * occurrences of the NL character  
+ * @param filename
+ * @return the amount of lines in the file.
+ */
 int get_number_lines(char filename[]) {
     FILE* fp_number_lines = NULL;
     char character;
@@ -38,11 +67,17 @@ int get_number_lines(char filename[]) {
     }
     fclose(fp_number_lines);
     if (0 == lines) {
-        lines++; //as end of files DONT have an \n
+        lines++;
     }
     return lines;
 }
 
+/**
+ * Loads the competitors from the file given in the parameter 
+ * @param filename the filename
+ * @param lines the amount of lines in the filename
+ * @param comp the competitor data structure to fill
+ */
 void load_comp_file(char filename[], int lines, Competitor comp[]) {
     FILE* fp;
     int i = 0;
@@ -56,6 +91,12 @@ void load_comp_file(char filename[], int lines, Competitor comp[]) {
     fclose(fp);
 }
 
+/**
+ * Loads the nodes from the file given in the parameter
+ * @param filename the filename
+ * @param lines the amount of lines in the filename
+ * @param node_types the nodes data structure to fill
+ */
 void load_node_file(char filename[], int lines, Node *node_types) {
     FILE* fp;
     int i = 0;
@@ -68,6 +109,15 @@ void load_node_file(char filename[], int lines, Node *node_types) {
     fclose(fp);
 }
 
+/**
+ * Loads the courses and creates a linked list of Course_Nodes for each
+ * competitor.
+ * @param filename the filename
+ * @param lines the amount of lines in the filename
+ * @param node_types the data structure of the different types of nodes
+ * @param comp the competitor data structures to fill
+ * @param comp_lines the amount of competitors
+ */
 void load_courses_file(char filename[], int lines,
         Node *node_types, Competitor *comp, int comp_lines) {
     FILE* fp;
@@ -119,7 +169,12 @@ void load_courses_file(char filename[], int lines,
     fclose(fp);
 }
 
-
+/**
+ * Loads the tracks from the file
+ * @param filename the filename
+ * @param length the amount of lines in the filename
+ * @param tracks the data structure to fill
+ */
 void load_track_file(char filename[], int length, Track *tracks) {
     FILE* fp;
     int i = 0;
@@ -136,13 +191,17 @@ void load_track_file(char filename[], int length, Track *tracks) {
     fclose(fp);
 }
 
-void load_time_file(char filename[], int length, Competitor* comp, int comp_length) {
+/**
+ * Loads the time files and insert it into the relevant competitor
+ * @param filename the filename
+ * @param length the amount of lines in the file
+ * @param comp the competitor data structure
+ */
+void load_time_file(char filename[], int length, Competitor* comp) {
     FILE* fp;
     int i = 0, node_index, comp_index;
-    char buffer[100];
     char cp_type, date[6];
     fp = fopen(filename, "r");
-    //while(fgets(buffer,sizeof(buffer), fp) != NULL) {
     for(i = 0; i < length; i++) {
         fscanf(fp, "%c %d %d %5s\n",
                 &cp_type,
