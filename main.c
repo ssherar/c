@@ -8,9 +8,9 @@
  *        Version:  1.0
  *        Created:  11/28/2012 06:33:13 PM
  *       Revision:  none
- *       Compiler:  gcc
+ *       Compiler:  gcc -Wall
  *
- *         Author:  Samuel Sherar (ss), sbs1@aber.ac.uk
+ *         Author:  Samuel Sherar (sbs), sbs1@aber.ac.uk
  *        Company:  Aberystwyth University
  *
  * =====================================================================================
@@ -22,23 +22,61 @@
 #include        "fileio.h"
 #include        "node.h"
 
-
+/**
+ * The struct to hold the event data
+ */
 struct Event_Info event;
+
+/**
+ * The Competitor struct, which holds the course data for the
+ * competitor
+ */
 struct Competitor* competitor;
+
+/** 
+ * An array which holds the ID and the type of the node (e.g. JP, CP etc)
+ */
 struct Node *node_types;
+
+/**
+ * An array of the different tracks between nodes
+ */
 Track *tracks;
+
+/**
+ * The length of the competitor and courses files, so it is
+ * easy to iterate over the arrays.
+ */
 int no_competitors = 0, no_courses;
+
+/** 
+ * Method Signatures for the main.c file.
+ */
 
 void menu();
 void startup();
 void print_competitor(struct Competitor comp);
 void print_competitors();
+int find_finished(Competitor comp[], int no_comp);
+int find_running(Competitor comp[], int no_comp);
+int find_not_started(Competitor comp[], int no_comp);
 
+/** 
+ * Main entry point for the program, which runs setup
+ * and menu.
+ * @param argc - the amount of records in argv
+ * @param argv - the arguments parsed from the command line
+ * @return EXIT_SUCCESS
+ */
 int main(int argc, char *argv[]) {
     startup();
     menu();
     return EXIT_SUCCESS;
 }
+
+/**
+ * The main loop for the program
+ */
 
 void menu() {
     char menu_choice = 'A';
@@ -54,6 +92,7 @@ void menu() {
         printf("\n > ");
         scanf(" %c", &menu_choice);
         printf("\n\n");
+        
         if ('1' == menu_choice) {
             int comp_id;
             printf("Please enter a competitor id > ");
@@ -73,16 +112,6 @@ void menu() {
                         current_node->node_id,
                         current_node->time);
             }
-        } else if('3' == menu_choice) {
-            int id = -1, node_id = -1;
-            char time[6];
-            printf("Please enter the ID for the competitor > ");
-            scanf(" %d", &id);
-            printf("Please enter the node which he has just hit > ");
-            scanf(" %d", &node_id);
-            printf("Please enter the time he reached the checkpoint > ");
-            scanf(" %5s", time);
-            insert_checkpoint_data_manually(competitor[id-1].course.head, id, node_id, time);
         } else if('2' == menu_choice) {
           printf("\t1)\tQuery how many which haven't started\n");
           printf("\t2)\tQuery how many people are on the courses\n");
@@ -99,6 +128,16 @@ void menu() {
               int finished = find_finished(competitor, no_competitors);
               printf("Number of competitors finished: %d\n", finished);
           }
+        } else if('3' == menu_choice) {
+            int id = -1, node_id = -1;
+            char time[6];
+            printf("Please enter the ID for the competitor > ");
+            scanf(" %d", &id);
+            printf("Please enter the node which he has just hit > ");
+            scanf(" %d", &node_id);
+            printf("Please enter the time he reached the checkpoint > ");
+            scanf(" %5s", time);
+            insert_checkpoint_data_manually(competitor[id-1].course.head, id, node_id, time);
         } else if('4' == menu_choice) {
             char cp_data_filename[30];
             printf("Please enter the data file for the checkpoints > ");
@@ -111,6 +150,15 @@ void menu() {
     } while (menu_choice != 'q');
 }
 
+/**
+ * A method to find the amount of competitors which
+ * haven't started, by checking the the start_time is
+ * equal to NULL.
+ * 
+ * @param comp - the array of competitors
+ * @param no_comp - the count of array
+ * @return the amount of competitors which haven't started
+ */
 int find_not_started(Competitor comp[], int no_comp) {
     int amount = 0, i = 0;
     for(i = 0; i < no_comp; i++) {
@@ -121,7 +169,14 @@ int find_not_started(Competitor comp[], int no_comp) {
     return amount;
 }
 
-
+/**
+ * A method to find the amount of competitors which
+ * are in the process of competing the course by checking
+ * if they have a start_time but not an end_time
+ * @param comp - the array of competitors
+ * @param no_comp - the count of array
+ * @return the amount of competitors which are running
+ */
 int find_running(Competitor comp[], int no_comp) {
     int amount = 0, i = 0;
     for(i = 0; i < no_comp; i++) {
@@ -132,6 +187,14 @@ int find_running(Competitor comp[], int no_comp) {
     }
 }
 
+/**
+ * A method to find the amount of competitors which have finished
+ * the course by checking if they have both a start_time
+ * and an end_time
+ * @param comp - the array of competitors
+ * @param no_comp - the count of array
+ * @return the amount of competitors which are running
+ */
 int find_finished(Competitor comp[], int no_comp) {
     int amount =0, i = 0;
     for(i = 0; i < no_comp; i++) {
@@ -143,6 +206,11 @@ int find_finished(Competitor comp[], int no_comp) {
     return amount;
 }
 
+/**
+ * The start up method, which takes asks the user for
+ * input for all 5 files, while loading them into the
+ * relevant structures.
+ */
 void startup() {
     char info_filename[30], competitor_filename[30]
             , node_filename[30], course_filename[30], tracks_filename[30];
@@ -194,6 +262,10 @@ void startup() {
     no_courses = courses_lines;
 }
 
+/**
+ * The main function for printing out the competitors, for
+ * printing out individual competitors, look at print_competitor(comp)
+ */
 void print_competitors() {
     int i;
     printf("%-30s %-10s %-15s %-15s %-15s\n",
@@ -207,6 +279,10 @@ void print_competitors() {
     }
 }
 
+/**
+ * Prints out a competitor
+ * @param comp the competitor
+ */
 void print_competitor(struct Competitor comp) {
     printf("%-30s %-10d %-15c %-15s %-15s\n",
             comp.name,
