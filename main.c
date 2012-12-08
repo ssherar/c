@@ -75,7 +75,7 @@ void menu() {
             }
         } else if('3' == menu_choice) {
             int id = -1, node_id = -1;
-            char time[5];
+            char time[6];
             printf("Please enter the ID for the competitor > ");
             scanf(" %d", &id);
             printf("Please enter the node which he has just hit > ");
