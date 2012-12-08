@@ -32,10 +32,10 @@ Course_Node* find_node_head(Course_Node** head, int node_id) {
 }
 
 
-Course_Node* check_next_empty(Course_Node** head) {
+Course_Node* check_next_empty(Course_Node** head, int id) {
     Course_Node* current = (Course_Node*) head;
     while(current != NULL) {
-        if(strcmp(current->type, "CP") == 0) {
+        if(strcmp(current->type, "CP") == 0 && current->node_id == id) {
             if(current->time[0] == NULL) {
                 return current;
             }
@@ -73,7 +73,7 @@ void print_list(Course_Node** head) {
 
 void insert_checkpoint_data(Course** head, int comp_id, int checkpoint_id, char *time) {
     Course_Node* found = (Course_Node*) find_node_head(head, checkpoint_id);
-    Course_Node* next_empty = (Course_Node*) check_next_empty(head);
+    Course_Node* next_empty = (Course_Node*) check_next_empty(head, checkpoint_id);
     if(found != NULL && next_empty != NULL) {
         //if(found == next_empty) {
             strcpy(next_empty->time, time);
