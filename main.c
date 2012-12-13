@@ -185,6 +185,7 @@ int find_running(Competitor comp[], int no_comp) {
             amount++;
         }
     }
+    return amount;
 }
 
 /**
