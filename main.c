@@ -143,7 +143,7 @@ void menu() {
             printf("Please enter the data file for the checkpoints > ");
             scanf(" %30s", cp_data_filename);
             int cp_data_lines = get_number_lines(cp_data_filename);
-            load_time_file(cp_data_filename, cp_data_lines, competitor, no_competitors);
+            load_time_file(cp_data_filename, cp_data_lines, competitor);
         } else if('5' == menu_choice) {
             print_competitors();
         }

@@ -46,7 +46,7 @@ typedef struct Competitor {
 
 typedef struct Node {
     int id;
-    char type[2];
+    char type[3];
 } Node;
 
 typedef struct Track {
