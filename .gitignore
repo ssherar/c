@@ -17,10 +17,7 @@
 *.app
 
 # Netbeans
-nbproject/*
 /build/
-/dist/Makefile
-/dist/
 data/user1.txt
 
 data/.node.txt.swp
