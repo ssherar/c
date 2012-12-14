@@ -15,6 +15,11 @@
  *
  * =====================================================================================
  */
+typedef enum Flag {
+    MEDICAL_DISQ,
+    WRONG_CHECKPOINT_DISQ,
+    COMP_OK        
+} Flag;
 
 typedef struct Event_Info {
    char name[79];
@@ -43,6 +48,7 @@ typedef struct Competitor {
     char course_id;
     Course course;
     char name[50];
+    Flag flag;
 } Competitor;
 
 typedef struct Node {

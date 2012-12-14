@@ -87,6 +87,7 @@ void load_comp_file(char filename[], int lines, Competitor comp[]) {
                 &comp[i].id,
                 &comp[i].course_id,
                 comp[i].name);
+        comp[i].flag = COMP_OK;
     }
     fclose(fp);
 }
@@ -211,6 +212,10 @@ void load_time_file(char filename[], int length, Competitor* comp) {
         comp_index = find_comp_index(comp, length, comp_id);
         if(cp_type == 'T') {
             insert_checkpoint_data(comp[comp_index].course.head, comp_index, node_index, date);
+        } else if(cp_type == 'E') {
+            comp[comp_index].flag = MEDICAL_DISQ;
+        } else if(cp_type == 'I') {
+            comp[comp_index].flag = WRONG_CHECKPOINT_DISQ;
         }
     }
     fclose(fp);
