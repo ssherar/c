@@ -162,6 +162,13 @@ void insert_checkpoint_data_manually(Course** head, int comp_id, int checkpoint_
     }
 }
 
+/**
+ * Calculates the total time which the user has completed the track in, by
+ * parsing the character array using atoi, and finally passing back a character
+ * array to be neatly displayed.
+ * @param course the course
+ * @return the time formatted as a character array
+ */
 char* calc_total_time(Course course) {
     if(*course.start_time == NULL || *course.end_time == NULL) {
         return "";
@@ -185,6 +192,15 @@ char* calc_total_time(Course course) {
     return retVal;
 }
 
+/**
+ * Finds the current track which the entrant is most likely to be between,
+ * by checking their time compared to the estimated time for completion of that
+ * track
+ * @param head the head of the list
+ * @param tracks the array holding the tracks
+ * @param no_tracks the number of tracks
+ * @return The current track.
+ */
 Track find_current_track(Course_Node** head, Track* tracks, int no_tracks) {
     Course_Node *last_node = find_current_node(head);
     Course_Node *current = (Course_Node*) head;
@@ -202,6 +218,14 @@ Track find_current_track(Course_Node** head, Track* tracks, int no_tracks) {
     }
 }
 
+/**
+ * Finds the track which is between two nodes
+ * @param tracks the array of tracks
+ * @param node_from a node identifier
+ * @param node_to another node identifier
+ * @param no_tracks number of tracks
+ * @return the current track
+ */
 Track find_track(Track *tracks, int node_from, int node_to, int no_tracks) {
     int i = 0;
     for(i; i < no_tracks; i++) {
@@ -213,6 +237,12 @@ Track find_track(Track *tracks, int node_from, int node_to, int no_tracks) {
     
 }
 
+/**
+ * Returns the time in minutes from a char array to compare against the track
+ * times
+ * @param time the time as a string
+ * @return minutes
+ */
 int get_time_from_char(char time[]) {
     int minutes;
     minutes = atoi(strtok(time, ":")) * 60;
@@ -220,6 +250,14 @@ int get_time_from_char(char time[]) {
     return minutes;
 }
 
+/**
+ * Finds the competitor index when the competitors in the files are not ordered
+ * in sequential order.
+ * @param comp the competitor array
+ * @param length length of the competitor array
+ * @param comp_index index to find
+ * @return the id if found, -1 otherwise.
+ */
 int find_comp_index(Competitor* comp, int length, int comp_index) {
     int i = 0;
     for(i; i < length; i++) {
