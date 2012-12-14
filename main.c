@@ -218,13 +218,11 @@ void startup() {
     int competitor_lines, node_lines, courses_lines, tracks_lines;
 
     printf("Please enter the file for the event information > ");
-    //scanf(" %30s", info_filename);
-    strcpy(info_filename,"data/event_info.txt");
+    scanf(" %30s", info_filename);
     load_info_file(info_filename, &event);
 
     printf("Please enter the file for the node type > ");
-    //scanf(" %30s", node_filename);
-    strcpy(node_filename, "data/node.txt");
+    scanf(" %30s", node_filename);
     node_lines = get_number_lines(node_filename);
     if (0 < node_lines) {
         node_types = (Node*) malloc(node_lines * sizeof (struct Node));
@@ -232,8 +230,7 @@ void startup() {
     }
 
     printf("Please enter the file for the competitors > ");
-    //scanf(" %30s", competitor_filename);
-    strcpy(competitor_filename, "data/comp_data.txt");
+    scanf(" %30s", competitor_filename);
     competitor_lines = get_number_lines(competitor_filename);
     no_competitors = competitor_lines;
     
@@ -242,8 +239,7 @@ void startup() {
         load_comp_file(competitor_filename, competitor_lines, competitor);
     }
     printf("Please enter the file for the courses > ");
-    //scanf(" %30s", course_filename);
-    strcpy(course_filename, "data/courses.txt");
+    scanf(" %30s", course_filename);
     courses_lines = get_number_lines(course_filename);
 
     if (0 < courses_lines) {
@@ -252,7 +248,7 @@ void startup() {
     }
 
     printf("Please enter the file for the tracks > ");
-    strcpy(tracks_filename,"data/tracks.txt");
+    scanf(" %30s", tracks_filename);
     tracks_lines = get_number_lines(tracks_filename);
 
     if (0 < tracks_lines) {
