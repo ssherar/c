@@ -159,3 +159,20 @@ void insert_checkpoint_data_manually(Course** head, int comp_id, int checkpoint_
         printf("error: cannot find node %d", checkpoint_id);
     }
 }
+
+char* calc_total_time(Course course) {
+    int min_minutes, min_hours, max_minutes, max_hours,
+            total_minutes, diff_hours, diff_minutes;
+    char retVal[6];
+    min_hours = atoi(strtok(course.start_time, ":"));
+    min_minutes = atoi(strtok(NULL, ":"));
+    
+    max_hours = atoi(strtok(course.end_time, ":"));
+    max_minutes = atoi(strtok(NULL, ":"));
+    
+    total_minutes = ((max_hours*60) + max_minutes)-((min_hours*60) + min_minutes);
+    diff_hours = (total_minutes/60) % 60;
+    diff_minutes = total_minutes % 60;
+    sprintf(retVal, "%02d:%02d", diff_hours, diff_minutes);
+    return retVal;
+}

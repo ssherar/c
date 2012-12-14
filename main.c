@@ -265,12 +265,13 @@ void startup() {
  */
 void print_competitors() {
     int i;
-    printf("%-30s %-10s %-15s %-15s %-15s\n",
+    printf("%-30s %-10s %-15s %-15s %-15s %-15s\n",
             "Name",
             "ID",
             "Course ID",
             "Start Time",
-            "End Time");
+            "End Time",
+            "Total Time");
     for(i = 0; i < no_competitors; i++) {
         print_competitor(competitor[i]);
     }
@@ -281,11 +282,12 @@ void print_competitors() {
  * @param comp the competitor
  */
 void print_competitor(struct Competitor comp) {
-    printf("%-30s %-10d %-15c %-15s %-15s\n",
+    printf("%-30s %-10d %-15c %-15s %-15s %-15s\n",
             comp.name,
             comp.id,
             comp.course_id,
             comp.course.start_time,
-            comp.course.end_time);
+            comp.course.end_time,
+            calc_total_time(comp.course));
 }
 

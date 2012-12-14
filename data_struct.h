@@ -34,6 +34,7 @@ typedef struct Course_Node {
     int node_id;
     char type[3];
     char time[6];
+    char leave_time[6];
     struct Course_Node *next;
 } Course_Node;
 
