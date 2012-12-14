@@ -169,10 +169,13 @@ char* calc_total_time(Course course) {
     int min_minutes, min_hours, max_minutes, max_hours,
             total_minutes, diff_hours, diff_minutes;
     char retVal[6];
-    min_hours = atoi(strtok(course.start_time, ":"));
+    char start[6], end[6];
+    strcpy(start, course.start_time);
+    strcpy(end, course.end_time);
+    min_hours = atoi(strtok(start, ":"));
     min_minutes = atoi(strtok(NULL, ":"));
     
-    max_hours = atoi(strtok(course.end_time, ":"));
+    max_hours = atoi(strtok(end, ":"));
     max_minutes = atoi(strtok(NULL, ":"));
     
     total_minutes = ((max_hours*60) + max_minutes)-((min_hours*60) + min_minutes);

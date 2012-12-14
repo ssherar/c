@@ -97,7 +97,7 @@ void menu() {
             int comp_id;
             printf("Please enter a competitor id > ");
             scanf(" %d", &comp_id);
-            comp_id -= 1;
+            comp_id = find_comp_index(competitor, no_competitors, comp_id);
             if(*competitor[comp_id].course.start_time == NULL) {
                 printf("Competitor %s has not started yet\n", competitor[comp_id].name);
             }else if(*competitor[comp_id].course.start_time != NULL &&
