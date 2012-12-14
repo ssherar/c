@@ -120,6 +120,8 @@ void menu() {
           printf("\t1)\tQuery how many which haven't started\n");
           printf("\t2)\tQuery how many people are on the courses\n");
           printf("\t3)\tQuery how many people have finished\n");
+          printf("\t4)\tQuery how many have been disqualified for wrong checkpoint\n");
+          printf("\t5)\tQuery how many have been disqualified for medical reasons\n");
           printf("\n > ");
           scanf(" %c", &menu_choice);
           if('1' == menu_choice) {
@@ -131,6 +133,14 @@ void menu() {
           } else if('3' == menu_choice) {
               int finished = find_finished(competitor, no_competitors);
               printf("Number of competitors finished: %d\n", finished);
+          } else if('4' == menu_choice) {
+              int disq_cp = find_disq_cp(competitor, no_competitors);
+              printf("Number of competitors disqualified for wrong cp: %d",
+                      disq_cp);
+          } else if('5' == menu_choice) {
+              int disq_medical = find_disq_medical(competitor, no_competitors);
+              printf("Number of competitors disqualified for medical reasons : %d",
+                      disq_medical);
           }
         } else if('3' == menu_choice) {
             int id = -1, node_id = -1;
@@ -207,6 +217,26 @@ int find_finished(Competitor comp[], int no_comp) {
                 *comp[i].course.start_time != NULL) {
             amount++;
         } 
+    }
+    return amount;
+}
+
+int find_disq_cp(Competitor comp[], int no_comp) {
+    int amount = 0, i = 0;
+    for(i; i < no_comp; i++) {
+        if(comp[i].flag == WRONG_CHECKPOINT_DISQ) {
+            amount++;
+        }
+    }
+    return amount;
+}
+
+int find_disq_medical(Competitor comp[], int no_comp) {
+    int amount = 0, i = 0;
+    for(i; i < no_comp; i++) {
+        if(comp[i].flag == MEDICAL_DISQ) {
+            amount++;
+        }
     }
     return amount;
 }
