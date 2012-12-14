@@ -216,3 +216,13 @@ int get_time_from_char(char time[]) {
     minutes += atoi(strtok(NULL, ":"));
     return minutes;
 }
+
+int find_comp_index(Competitor* comp, int length, int comp_index) {
+    int i = 0;
+    for(i; i < length; i++) {
+        if(comp[i].id == comp_index) {
+            return i;
+        }
+    }
+    return -1;
+}

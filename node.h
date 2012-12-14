@@ -35,6 +35,7 @@ extern "C" {
     Course_Node* find_current_node(Course_Node** head);
     char* calc_total_time(Course course);
     Track find_current_track(Course_Node** head, Track* tracks, int no_tracks);
+    int find_comp_index(Competitor* comp, int length, int comp_index);
 
 #ifdef	__cplusplus
 }

@@ -199,18 +199,18 @@ void load_track_file(char filename[], int length, Track *tracks) {
  */
 void load_time_file(char filename[], int length, Competitor* comp) {
     FILE* fp;
-    int i = 0, node_index, comp_index;
+    int i = 0, node_index, comp_id, comp_index;
     char cp_type, date[6];
     fp = fopen(filename, "r");
     for(i = 0; i < length; i++) {
         fscanf(fp, "%c %d %d %5s\n",
                 &cp_type,
                 &node_index,
-                &comp_index,
+                &comp_id,
                 date);
-        
+        comp_index = find_comp_index(comp, length, comp_id);
         if(cp_type == 'T') {
-            insert_checkpoint_data(comp[comp_index - 1].course.head, comp_index, node_index, date);
+            insert_checkpoint_data(comp[comp_index].course.head, comp_index, node_index, date);
         }
     }
     fclose(fp);
