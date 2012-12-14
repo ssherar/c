@@ -29,11 +29,12 @@ extern "C" {
     void print_list(Course_Node** head);
     Course_Node* find_node(Course_Node* current, int node_id);
     Course_Node* find_node_head(Course_Node** head, int node_id);
-    Course_Node* check_next_empty(Course_Node** head);
+    Course_Node* check_next_empty(Course_Node** heqad);
     void insert_checkpoint_data(Course** head, int comp_id, int checkpoint_id, char time[]);
     void insert_checkpoint_data_manually(Course** head, int comp_id, int checkpoint_id, char time[]);
     Course_Node* find_current_node(Course_Node** head);
     char* calc_total_time(Course course);
+    Track find_current_track(Course_Node** head, Track* tracks, int no_tracks);
 
 #ifdef	__cplusplus
 }

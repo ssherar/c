@@ -21,6 +21,9 @@
 #include <string.h>
 #include "data_struct.h"
 
+Track find_track(Track *tracks, int node_from, int node_to, int no_tracks);
+int get_time_from_char(char time[]);
+
 /**
  * insert a node at the end of the list recursively.
  * @param current the current node
@@ -92,7 +95,6 @@ Course_Node* find_current_node(Course_Node** head) {
     Course_Node* current = (Course_Node*) head;
     Course_Node* prev_cp;
     while(current != NULL) {
-        printf("Checking %d\n", current->node_id);
         if(strcmp(current->type, "CP") == 0) {
             if(current->time[0] == NULL) {
                 return prev_cp;
@@ -161,6 +163,9 @@ void insert_checkpoint_data_manually(Course** head, int comp_id, int checkpoint_
 }
 
 char* calc_total_time(Course course) {
+    if(*course.start_time == NULL || *course.end_time == NULL) {
+        return "";
+    }
     int min_minutes, min_hours, max_minutes, max_hours,
             total_minutes, diff_hours, diff_minutes;
     char retVal[6];
@@ -175,4 +180,39 @@ char* calc_total_time(Course course) {
     diff_minutes = total_minutes % 60;
     sprintf(retVal, "%02d:%02d", diff_hours, diff_minutes);
     return retVal;
+}
+
+Track find_current_track(Course_Node** head, Track* tracks, int no_tracks) {
+    Course_Node *last_node = find_current_node(head);
+    Course_Node *current = (Course_Node*) head;
+    int start_minutes = get_time_from_char(current->time);
+    int end_minutes = get_time_from_char(last_node->time);
+    int difference = end_minutes - start_minutes;
+    int track_total = 0;
+    while(current != NULL && current != last_node) {
+        Track current_track = find_track(tracks, current->node_id, current->next->node_id, no_tracks);
+        track_total += current_track.time;
+        if(track_total > difference) {
+            return current_track;
+        }
+        current = current->next;
+    }
+}
+
+Track find_track(Track *tracks, int node_from, int node_to, int no_tracks) {
+    int i = 0;
+    for(i; i < no_tracks; i++) {
+        if((tracks[i].start == node_to || tracks[i].start == node_from)
+            && (tracks[i].finish == node_to || tracks[i].finish == node_from)) {
+            return tracks[i];
+        }
+    }
+    
+}
+
+int get_time_from_char(char time[]) {
+    int minutes;
+    minutes = atoi(strtok(time, ":")) * 60;
+    minutes += atoi(strtok(NULL, ":"));
+    return minutes;
 }

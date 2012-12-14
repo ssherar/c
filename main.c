@@ -47,7 +47,7 @@ Track *tracks;
  * The length of the competitor and courses files, so it is
  * easy to iterate over the arrays.
  */
-int no_competitors = 0, no_courses;
+int no_competitors = 0, no_courses, no_tracks;
 
 /** 
  * Method Signatures for the main.c file.
@@ -111,6 +111,10 @@ void menu() {
                         competitor[comp_id].name,
                         current_node->node_id,
                         current_node->time);
+                Track current_track = find_current_track(competitor[comp_id].course.head,
+                        tracks, no_tracks);
+                printf("The competitor is estimated to be between nodes %d and %d\n",
+                        current_track.start, current_track.finish);
             }
         } else if('2' == menu_choice) {
           printf("\t1)\tQuery how many which haven't started\n");
@@ -257,6 +261,7 @@ void startup() {
     }
 
     no_courses = courses_lines;
+    no_tracks = tracks_lines;
 }
 
 /**
